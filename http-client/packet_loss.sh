@@ -5,7 +5,7 @@ set -euo pipefail
 CURDIR=$(pwd)
 RESULT_DIR="${CURDIR}/results"
 
-tc qdisc del dev enp6s0 root
+tc qdisc del dev enp6s0 root || true
 
 for ((i = 0; i <= 60; i += 5)); do
 	for ((j = 0; j <= 500; j += 100)); do
