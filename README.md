@@ -10,3 +10,5 @@ TCP上のprotocolであるhttp2 と、UDP上のprotocolであるQUICのFaaS上�
   - cipher suites は同じにする
 - サーバから送られるデータは暗号化のシークレットデータのみ
 - QUICは github.com/lucas-clemente/quic-go/http3 を使用
+- LinuxではUDPのreceive buffer sizeのデフォルトが小さすぎるため、2.5MBに拡大
+  - https://github.com/quic-go/quic-go/wiki/UDP-Receive-Buffer-Size

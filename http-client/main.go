@@ -15,6 +15,7 @@ var count int64
 var format string
 var output io.Writer
 var http2Only, http3Only bool
+var url string
 
 var ResultHTTP2, ResultHTTP3 models.Result
 
@@ -23,6 +24,7 @@ func init() {
 	flag.StringVar(&format, "format", "json", "output format (json or csv)")
 	flag.BoolVar(&http2Only, "http2", false, "only http2 test")
 	flag.BoolVar(&http3Only, "http3", false, "only http3 test")
+	url = flag.Arg(1)
 	verbose := flag.Bool("verbose", false, "display verbose output")
 	flag.Parse()
 
@@ -30,6 +32,10 @@ func init() {
 		output = os.Stdout
 	} else {
 		output = io.Discard
+	}
+
+	if url == "" {
+		log.Fatal("url is required")
 	}
 }
 
@@ -58,18 +64,18 @@ func main() {
 
 func runTest(http2Only, http3Only bool) {
 	if http2Only {
-		conn2 := connector.Http2(output)
+		conn2 := connector.Http2(url, output)
 		ResultHTTP2.TimeMicroSeconds = append(ResultHTTP2.TimeMicroSeconds, conn2)
 		return
 	}
 	if http3Only {
-		conn3 := connector.Http3(output)
+		conn3 := connector.Http3(url, output)
 		ResultHTTP3.TimeMicroSeconds = append(ResultHTTP3.TimeMicroSeconds, conn3)
 		return
 	}
 
-	conn2 := connector.Http2(output)
+	conn2 := connector.Http2(url, output)
 	ResultHTTP2.TimeMicroSeconds = append(ResultHTTP2.TimeMicroSeconds, conn2)
-	conn3 := connector.Http3(output)
+	conn3 := connector.Http3(url, output)
 	ResultHTTP3.TimeMicroSeconds = append(ResultHTTP3.TimeMicroSeconds, conn3)
 }

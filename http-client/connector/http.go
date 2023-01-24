@@ -10,7 +10,7 @@ import (
 	"github.com/lucas-clemente/quic-go/http3"
 )
 
-func Http2(output io.Writer) int64 {
+func Http2(url string, output io.Writer) int64 {
 	http2Before := time.Now()
 
 	tr := &http.Transport{
@@ -28,7 +28,7 @@ func Http2(output io.Writer) int64 {
 	client := &http.Client{
 		Transport: tr,
 	}
-	req, _ := http.NewRequest("GET", "https://localhost:8081", nil)
+	req, _ := http.NewRequest("GET", url, nil)
 
 	resp, err := client.Transport.RoundTrip(req)
 	if err != nil {
@@ -43,7 +43,7 @@ func Http2(output io.Writer) int64 {
 	return time.Since(http2Before).Microseconds()
 }
 
-func Http3(output io.Writer) int64 {
+func Http3(url string, output io.Writer) int64 {
 	http3Before := time.Now()
 
 	r := http3.RoundTripper{
@@ -58,7 +58,7 @@ func Http3(output io.Writer) int64 {
 			InsecureSkipVerify:          true,
 		},
 	}
-	req, _ := http.NewRequest("GET", "https://localhost:8081", nil)
+	req, _ := http.NewRequest("GET", url, nil)
 
 	resp, err := r.RoundTrip(req)
 	if err != nil {
