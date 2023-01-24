@@ -56,9 +56,16 @@ func main() {
 	shouldWriteHeader := false
 
 	for i := int64(0); i < count; i++ {
-		err := runTest(http2Url, http3Url)
-		if err != nil {
-			log.Fatal(err)
+		if http2Url != "" {
+			if runTestHTTP2(http2Url) {
+				ResultHTTP2.ConnectSuccessCount++
+			}
+		}
+
+		if http3Url != "" {
+			if runTestHTTP3(http3Url) {
+				ResultHTTP3.ConnectSuccessCount++
+			}
 		}
 	}
 
@@ -73,21 +80,22 @@ func main() {
 
 }
 
-func runTest(http2Url, http3Url string) error {
-	if http2Url != "" {
-		conn2, err := connector.Http2(http2Url, output)
-		if err != nil {
-			return err
-		}
-		ResultHTTP2.TimeMicroSeconds = append(ResultHTTP2.TimeMicroSeconds, conn2)
+func runTestHTTP2(http2Url string) (successConnect bool) {
+	conn2, err := connector.Http2(http2Url, output)
+	if err != nil {
+		return false
 	}
-	if http3Url != "" {
-		conn3, err := connector.Http3(http3Url, output)
-		if err != nil {
-			return err
-		}
-		ResultHTTP3.TimeMicroSeconds = append(ResultHTTP3.TimeMicroSeconds, conn3)
-	}
+	ResultHTTP2.TimeMicroSeconds = append(ResultHTTP2.TimeMicroSeconds, conn2)
 
-	return nil
+	return true
+}
+
+func runTestHTTP3(http3Url string) (successConnect bool) {
+	conn3, err := connector.Http3(http3Url, output)
+	if err != nil {
+		return false
+	}
+	ResultHTTP3.TimeMicroSeconds = append(ResultHTTP3.TimeMicroSeconds, conn3)
+
+	return true
 }

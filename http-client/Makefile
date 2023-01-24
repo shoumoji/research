@@ -8,8 +8,8 @@ run:
 
 .PHONY: run-http2
 run-http2:
-	@for i in {1..$(COUNT)}; do go run $(CURDIR)/*.go --count 1 --format csv --http2; done
+	@for i in {1..$(COUNT)}; do go run $(CURDIR)/*.go --count 1 --format json --http2; done
 
 .PHONY: run-http3
 run-http3:
-	@for i in {1..$(COUNT)}; do go run $(CURDIR)/*.go --count 1 --format csv --http3; done
+	@for i in {1..$(COUNT)}; do go run $(CURDIR)/*.go --count 1 --format json --http3; done
