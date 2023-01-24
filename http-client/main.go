@@ -11,12 +11,14 @@ import (
 	"github.com/shoumoji/research/http3-client/view"
 )
 
-var count int64
-var format string
-var output io.Writer
-var http2Url, http3Url string
+var (
+	count              int64
+	format             string
+	output             io.Writer
+	http2Url, http3Url string
 
-var ResultHTTP2, ResultHTTP3 models.Result
+	ResultHTTP2, ResultHTTP3 models.Result
+)
 
 func init() {
 	flag.Int64Var(&count, "count", 100, "Number of times to run the test")
@@ -33,6 +35,10 @@ func init() {
 		output = io.Discard
 	}
 
+	if count < int64(1) {
+		log.Fatal("count must be greater than 0")
+	}
+
 	if http2Url == "" && http3Url == "" {
 		log.Fatal("url is required")
 	}
@@ -41,6 +47,9 @@ func init() {
 func init() {
 	ResultHTTP2.Protocol = "http2"
 	ResultHTTP3.Protocol = "http3"
+
+	ResultHTTP2.Count = count
+	ResultHTTP3.Count = count
 }
 
 func main() {
