@@ -11,6 +11,10 @@ import (
 
 func OutputJSON(results ...*models.Result) error {
 	for _, r := range results {
+		if len(r.TimeMicroSeconds) == 0 {
+			continue
+		}
+
 		jsonData, err := json.Marshal(&r)
 		if err != nil {
 			return err
