@@ -7,7 +7,7 @@ RESULT_DIR="${CURDIR}/results"
 
 tc qdisc del dev enp6s0 root
 
-for ((i = 0; i <= 100; i += 5)); do
+for ((i = 0; i <= 60; i += 5)); do
 	for ((j = 0; j <= 500; j += 100)); do
 		packet_loss=$(printf "%03d\n" "${i}")
 		if ((i != 0)); then
@@ -16,7 +16,6 @@ for ((i = 0; i <= 100; i += 5)); do
 
 		ping_ms=$(printf "%03d\n" "${j}")
 		if ((j != 0)); then
-			echo "j: $j"
 			tc qdisc add dev enp6s0 root netem delay "${j}ms"
 		fi
 
