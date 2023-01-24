@@ -3,14 +3,13 @@ package connector
 import (
 	"crypto/tls"
 	"io"
-	"log"
 	"net/http"
 	"time"
 
 	"github.com/lucas-clemente/quic-go/http3"
 )
 
-func Http2(url string, output io.Writer) int64 {
+func Http2(url string, output io.Writer) (int64, error) {
 	http2Before := time.Now()
 
 	tr := &http.Transport{
@@ -28,22 +27,25 @@ func Http2(url string, output io.Writer) int64 {
 	client := &http.Client{
 		Transport: tr,
 	}
-	req, _ := http.NewRequest("GET", url, nil)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return -1, err
+	}
 
 	resp, err := client.Transport.RoundTrip(req)
 	if err != nil {
-		log.Fatal(err)
+		return -1, err
 	}
 	defer resp.Body.Close()
 
 	if _, err := io.Copy(io.Discard, resp.Body); err != nil {
-		log.Fatal(err)
+		return -1, err
 	}
 
-	return time.Since(http2Before).Microseconds()
+	return time.Since(http2Before).Microseconds(), nil
 }
 
-func Http3(url string, output io.Writer) int64 {
+func Http3(url string, output io.Writer) (int64, error) {
 	http3Before := time.Now()
 
 	r := http3.RoundTripper{
@@ -58,15 +60,21 @@ func Http3(url string, output io.Writer) int64 {
 			InsecureSkipVerify:          true,
 		},
 	}
-	req, _ := http.NewRequest("GET", url, nil)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return -1, err
+	}
 
 	resp, err := r.RoundTrip(req)
 	if err != nil {
-		log.Fatal(err)
+		return -1, err
 	}
 	defer resp.Body.Close()
 
-	io.Copy(io.Discard, resp.Body)
+	_, err = io.Copy(io.Discard, resp.Body)
+	if err != nil {
+		return -1, err
+	}
 
-	return time.Since(http3Before).Microseconds()
+	return time.Since(http3Before).Microseconds(), nil
 }

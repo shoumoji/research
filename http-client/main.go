@@ -47,7 +47,10 @@ func main() {
 	shouldWriteHeader := false
 
 	for i := int64(0); i < count; i++ {
-		runTest(http2Url, http3Url)
+		err := runTest(http2Url, http3Url)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	switch format {
@@ -61,16 +64,21 @@ func main() {
 
 }
 
-func runTest(http2Url, http3Url string) {
+func runTest(http2Url, http3Url string) error {
 	if http2Url != "" {
-		conn2 := connector.Http2(http2Url, output)
+		conn2, err := connector.Http2(http2Url, output)
+		if err != nil {
+			return err
+		}
 		ResultHTTP2.TimeMicroSeconds = append(ResultHTTP2.TimeMicroSeconds, conn2)
-		return
+	}
+	if http3Url != "" {
+		conn3, err := connector.Http3(http3Url, output)
+		if err != nil {
+			return err
+		}
+		ResultHTTP3.TimeMicroSeconds = append(ResultHTTP3.TimeMicroSeconds, conn3)
 	}
 
-	if http3Url != "" {
-		conn3 := connector.Http3(http3Url, output)
-		ResultHTTP3.TimeMicroSeconds = append(ResultHTTP3.TimeMicroSeconds, conn3)
-		return
-	}
+	return nil
 }
