@@ -16,7 +16,7 @@ func main() {
 	w := os.Stdout
 
 	server := http3.Server{
-		Addr: "127.0.0.1:8081",
+		Addr: "127.0.0.1:18000",
 		TLSConfig: &tls.Config{
 			MinVersion:   tls.VersionTLS13,
 			MaxVersion:   tls.VersionTLS13,
