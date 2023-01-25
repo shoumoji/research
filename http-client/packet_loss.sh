@@ -23,12 +23,12 @@ for ((i = 0; i <= 60; i += 5)); do
 			tc qdisc add dev enp6s0 root netem delay "${j}ms"
 		fi
 
-		echo "packet_loss: ${packet_loss}%, ping_ms: ${ping_ms}ms"
 		go run "${CURDIR}/main.go" --count 100 --format csv --http3 "https://server:18000" \
 			>"${RESULT_DIR}/packet_loss_${packet_loss}%-ping_${ping_ms}ms.csv"
 
 		# パケロスも遅延もない時はエラーが出る為何もしない
 		if ((i != 0 && j != 0)); then
+			echo "reset network setting"
 			tc qdisc del dev enp6s0 root
 		fi
 	done
