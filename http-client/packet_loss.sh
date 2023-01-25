@@ -26,10 +26,7 @@ for ((i = 0; i <= 60; i += 5)); do
 		go run "${CURDIR}/main.go" --count 100 --format csv --http3 "https://server:18000" \
 			>"${RESULT_DIR}/packet_loss_${packet_loss}%-ping_${ping_ms}ms.csv"
 
-		# パケロスも遅延もない時はエラーが出る為何もしない
-		if ((i != 0 && j != 0)); then
-			echo "reset network setting"
-			tc qdisc del dev enp6s0 root
-		fi
+		# パケロスも遅延もない時はエラーが出る為強制的に成功させる
+		tc qdisc del dev enp6s0 root || true
 	done
 done
