@@ -19,7 +19,7 @@ for ((i = 0; i <= 60; i += 5)); do
 
 		ping_ms=$(printf "%03d\n" "${j}")
 		if ((j != 0)); then
-			echo "ping_ms: ${j}}ms"
+			echo "ping_ms: ${j}ms"
 			tc qdisc add dev enp6s0 root netem delay "${j}ms"
 		fi
 
