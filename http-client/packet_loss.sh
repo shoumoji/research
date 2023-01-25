@@ -12,14 +12,14 @@ echo "initialize done"
 for ((i = 0; i <= 60; i += 5)); do
 	for ((j = 0; j <= 300; j += 100)); do
 		packet_loss=$(printf "%03d\n" "${i}")
+		echo "packet_loss: ${packet_loss}%, i: ${i}"
 		if ((i != 0)); then
-			echo "packet_loss: ${i}%"
 			tc qdisc add dev enp6s0 root netem loss "${i}%"
 		fi
 
 		ping_ms=$(printf "%03d\n" "${j}")
+		echo "ping_ms: ${ping_ms}ms, j: ${j}"
 		if ((j != 0)); then
-			echo "ping_ms: ${j}ms"
 			tc qdisc add dev enp6s0 root netem delay "${j}ms"
 		fi
 
