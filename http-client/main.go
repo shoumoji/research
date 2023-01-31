@@ -53,7 +53,7 @@ func init() {
 }
 
 func main() {
-	shouldWriteHeader := true
+	shouldWriteHeader := false
 
 	for i := int64(0); i < count; i++ {
 		if http2Url != "" {
