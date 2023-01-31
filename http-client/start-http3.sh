@@ -6,7 +6,13 @@ CURDIR=$(pwd)
 RESULT_DIR="${CURDIR}/http3-results"
 
 echo "start initialize..."
+
 tc qdisc del dev enp6s0 root || true
+
+if [ ! -d "${RESULT_DIR}" ]; then
+	mkdir "${RESULT_DIR}"
+fi
+
 echo "initialize done"
 
 for ((i = 0; i <= 60; i += 5)); do
