@@ -3,7 +3,7 @@
 set -euo pipefail
 
 CURDIR=$(pwd)
-RESULT_DIR="${CURDIR}/results"
+RESULT_DIR="${CURDIR}/http2-results"
 
 echo "start initialize..."
 tc qdisc del dev enp6s0 root || true
