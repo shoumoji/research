@@ -31,8 +31,8 @@ for ((i = 0; i <= 60; i += 5)); do
 			tc qdisc add dev enp6s0 root netem loss "${i}%"
 		fi
 
-		go run "${CURDIR}/main.go" --count 100 --format csv --http3 "https://server:18000" \
-			>"${RESULT_DIR}/packet_loss_${packet_loss}%-ping_${ping_ms}ms.csv"
+		go run "${CURDIR}/main.go" --count 100 --format csv --http2 "https://server:18000" \
+			>"${RESULT_DIR}/ping_${ping_ms}ms-packet_loss_${packet_loss}%.csv"
 
 		# パケロスも遅延もない時はエラーが出る為強制的に成功させる
 		tc qdisc del dev enp6s0 root || true

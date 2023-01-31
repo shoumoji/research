@@ -32,7 +32,7 @@ for ((i = 0; i <= 60; i += 5)); do
 		fi
 
 		go run "${CURDIR}/main.go" --count 100 --format csv --http3 "https://server:18000" \
-			>"${RESULT_DIR}/packet_loss_${packet_loss}%-ping_${ping_ms}ms.csv"
+			>"${RESULT_DIR}/ping_${ping_ms}ms-packet_loss_${packet_loss}%.csv"
 
 		# パケロスも遅延もない時はエラーが出るため
 		if ((i != 0 || j != 0)); then
