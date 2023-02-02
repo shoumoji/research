@@ -3,7 +3,13 @@
 set -euo pipefail
 
 CURDIR=$(pwd)
-RESULT_DIR="${CURDIR}/intermittent-http2-results"
+RESULT_DIR="${CURDIR}/filesize-http3-results"
+
+filesize[0]=""
+filesize[1]="1mb"
+filesize[2]="10mb"
+filesize[3]="100mb"
+filesize[4]="1000mb"
 
 echo "start initialize..."
 
@@ -31,9 +37,9 @@ for ((i = 0; i <= 50; i += 5)); do
 			tc qdisc add dev enp6s0 root netem loss "${i}%"
 		fi
 
-		if ((k = 0; k < 50; k++)); do
-			go run "${CURDIR}/main.go" --count 1 --format csv --http2 "https://server:18000" \
-				>"${RESULT_DIR}/ping_${ping_ms}ms-packet_loss_${packet_loss}%.csv"
+		for fsize in "${filesize[@]}"; do
+			go run "${CURDIR}/main.go" --count 10 --format csv --http3 "https://server:18000/${fsize}" \
+				>"${RESULT_DIR}/ping_${ping_ms}ms-packet_loss_${packet_loss}%-filesize_${fsize}.csv"
 		done
 
 		# パケロスも遅延もない時はエラーが出るため
