@@ -21,7 +21,7 @@ fi
 
 echo "initialize done"
 
-for ((i = 0; i <= 50; i += 10)); do
+for ((i = 0; i <= 50; i += 5)); do
 	for ((j = 0; j <= 100; j += 100)); do
 		packet_loss=$(printf "%03d\n" "${i}")
 		ping_ms=$(printf "%03d\n" "${j}")
