@@ -5,11 +5,8 @@ set -euo pipefail
 CURDIR=$(pwd)
 RESULT_DIR="${CURDIR}/filesize-http2-results"
 
-filesize[0]=""
-filesize[1]="1mb"
-filesize[2]="10mb"
-filesize[3]="100mb"
-filesize[4]="1000mb"
+filesize[0]="1mb"
+filesize[1]="1000mb"
 
 echo "start initialize..."
 
