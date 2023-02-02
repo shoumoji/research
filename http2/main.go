@@ -30,12 +30,12 @@ func init() {
 	}
 
 	data100mb = make([]byte, size100mb)
-	if _, err := rand.Read(data10mb); err != nil {
+	if _, err := rand.Read(data100mb); err != nil {
 		log.Fatal(err)
 	}
 
 	data1000mb = make([]byte, size1000mb)
-	if _, err := rand.Read(data10mb); err != nil {
+	if _, err := rand.Read(data1000mb); err != nil {
 		log.Fatal(err)
 	}
 }
