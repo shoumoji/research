@@ -13,15 +13,20 @@ func Http2(url string, output io.Writer) (int64, error) {
 	http2Before := time.Now()
 
 	tr := &http.Transport{
+		ForceAttemptHTTP2:  true,
+		DisableCompression: true,
 		TLSClientConfig: &tls.Config{
 			ClientSessionCache:          tls.NewLRUClientSessionCache(0),
 			MinVersion:                  tls.VersionTLS13,
 			MaxVersion:                  tls.VersionTLS13,
-			CurvePreferences:            []tls.CurveID{},
 			DynamicRecordSizingDisabled: false,
 			Renegotiation:               0,
 			KeyLogWriter:                output,
 			InsecureSkipVerify:          true,
+			// x25519
+			CurvePreferences: []tls.CurveID{29},
+			// TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+			CipherSuites: []uint16{0xC02B},
 		},
 	}
 	client := &http.Client{
@@ -49,15 +54,19 @@ func Http3(url string, output io.Writer) (int64, error) {
 	http3Before := time.Now()
 
 	r := http3.RoundTripper{
+		DisableCompression: true,
 		TLSClientConfig: &tls.Config{
 			ClientSessionCache:          tls.NewLRUClientSessionCache(0),
 			MinVersion:                  tls.VersionTLS13,
 			MaxVersion:                  tls.VersionTLS13,
-			CurvePreferences:            []tls.CurveID{},
 			DynamicRecordSizingDisabled: false,
 			Renegotiation:               0,
 			KeyLogWriter:                output,
 			InsecureSkipVerify:          true,
+			// x25519
+			CurvePreferences: []tls.CurveID{29},
+			// TLS_AES_128_GCM_SHA256
+			CipherSuites: []uint16{0x1301},
 		},
 	}
 	req, err := http.NewRequest("GET", url, nil)
