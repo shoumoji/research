@@ -15,7 +15,7 @@ fi
 
 echo "initialize done"
 
-for ((i = 0; i <= 60; i += 5)); do
+for ((i = 0; i <= 50; i += 5)); do
 	for ((j = 0; j <= 300; j += 100)); do
 		packet_loss=$(printf "%03d\n" "${i}")
 		ping_ms=$(printf "%03d\n" "${j}")
@@ -34,7 +34,9 @@ for ((i = 0; i <= 60; i += 5)); do
 		go run "${CURDIR}/main.go" --count 100 --format csv --http2 "https://server:18000" \
 			>"${RESULT_DIR}/ping_${ping_ms}ms-packet_loss_${packet_loss}%.csv"
 
-		# パケロスも遅延もない時はエラーが出る為強制的に成功させる
-		tc qdisc del dev enp6s0 root || true
+		# パケロスも遅延もない時はエラーが出るため
+		if ((i != 0 || j != 0)); then
+			tc qdisc del dev enp6s0 root || true
+		fi
 	done
 done
