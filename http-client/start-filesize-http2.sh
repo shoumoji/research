@@ -35,7 +35,7 @@ for ((i = 0; i <= 50; i += 5)); do
 		fi
 
 		for fsize in "${filesize[@]}"; do
-			go run "${CURDIR}/main.go" --count 10 --format csv --http2 "https://server:18000/${fsize}" \
+			go run "${CURDIR}/main.go" --count 100 --format csv --http2 "https://server:18000/${fsize}" \
 				>"${RESULT_DIR}/ping_${ping_ms}ms-packet_loss_${packet_loss}%-filesize_${fsize}.csv"
 		done
 
