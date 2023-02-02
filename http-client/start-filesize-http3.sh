@@ -6,7 +6,7 @@ CURDIR=$(pwd)
 RESULT_DIR="${CURDIR}/filesize-http3-results"
 
 filesize[0]="1mb"
-filesize[1]="1000mb"
+filesize[1]="100mb"
 
 echo "start initialize..."
 
