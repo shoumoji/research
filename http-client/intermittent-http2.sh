@@ -31,7 +31,7 @@ for ((i = 0; i <= 50; i += 5)); do
 			tc qdisc add dev enp6s0 root netem loss "${i}%"
 		fi
 
-		if ((k = 0; k < 100; k++)); do
+		if ((k = 0; k < 50; k++)); do
 			go run "${CURDIR}/main.go" --count 1 --format csv --http2 "https://server:18000" \
 				>"${RESULT_DIR}/ping_${ping_ms}ms-packet_loss_${packet_loss}%.csv"
 		done
