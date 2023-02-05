@@ -2,7 +2,7 @@
 
 ## テーマ
 
-TCP上のprotocolであるhttp2 と、UDP上のprotocolであるQUICのFaaS上での性能比較
+Function as a Service における HTTP3/QUIC のコスト削減効果について
 
 ## 前提条件
 
@@ -13,6 +13,19 @@ TCP上のprotocolであるhttp2 と、UDP上のprotocolであるQUICのFaaS上�
       - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
     - http3
       - TLS_AES_128_GCM_SHA256
-- QUICは github.com/lucas-clemente/quic-go/http3 を使用
-- LinuxではUDPのreceive buffer sizeのデフォルトが小さすぎるため、2.5MBに拡大
-  - https://github.com/quic-go/quic-go/wiki/UDP-Receive-Buffer-Size
+- QUICは <https://github.com/quic-go/quic-go> を使用
+- LinuxではUDPのreceive buffer sizeのデフォルトが小さすぎるため、2.5MBに拡大する
+  - <https://github.com/quic-go/quic-go/wiki/UDP-Receive-Buffer-Size>
+
+## 使い方
+
+```bash
+# start HTTP/2 and HTTP/3 server
+make start -j 2
+```
+
+```bash
+cd http-client
+./start-http2.sh
+./start-http3.sh
+```
