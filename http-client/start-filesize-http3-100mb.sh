@@ -31,7 +31,7 @@ for ((i = 0; i <= 50; i += 5)); do
 			tc qdisc add dev enp6s0 root netem loss "${i}%"
 		fi
 
-		go run "${CURDIR}/main.go" --count 100 --format csv --http3 "https://server:18000/100mb" \
+		go run "${CURDIR}/main.go" --count 10 --format csv --http3 "https://server:18000/100mb" \
 			>"${RESULT_DIR}/ping_${ping_ms}ms-packet_loss_${packet_loss}%.csv"
 
 		# パケロスも遅延もない時はエラーが出るため
