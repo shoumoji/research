@@ -14,5 +14,5 @@ TCP上のprotocolであるhttp2 と、UDP上のprotocolであるQUICのFaaS上�
     - http3
       - TLS_AES_128_GCM_SHA256
 - QUICは github.com/lucas-clemente/quic-go/http3 を使用
-- LinuxではUDPのreceive buffer sizeのデフォルトが小さすぎるため、2.5MBに拡大
+- LinuxではUDPの送受信バッファのデフォルト値が小さいため、2.5MBに拡大 (特にサーバ側の受信バッファ)
   - https://github.com/quic-go/quic-go/wiki/UDP-Receive-Buffer-Size
