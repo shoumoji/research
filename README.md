@@ -14,8 +14,10 @@ Function as a Service における HTTP3/QUIC のコスト削減効果につい�
     - http3
       - TLS_AES_128_GCM_SHA256
 - QUICは <https://github.com/quic-go/quic-go> を使用
-- LinuxではUDPのreceive buffer sizeのデフォルトが小さすぎるため、2.5MBに拡大する
+- Linuxではデフォルトの UDP receive buffer size が小さすぎるため、2.5MBに拡大する
   - <https://github.com/quic-go/quic-go/wiki/UDP-Receive-Buffer-Size>
+  - サーバ側については送信側も同じ大きさに拡大しておく(要sudo)
+    - `sysctl -w net.core.rmem_max=2500000 && sysctl -w net.core.wmem_max=2500000`
 
 ## 使い方
 
