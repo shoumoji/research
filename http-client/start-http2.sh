@@ -3,7 +3,8 @@
 set -euo pipefail
 
 ######################
-count=100 # 計測回数
+count=100    # 計測回数
+format="csv" # 出力形式 (csv or json)
 filesize[0]="1mb"
 filesize[1]="100mb"
 # filesize[2]="10mb"
@@ -40,7 +41,7 @@ for ((i = 0; i <= 50; i += 5)); do
 		fi
 
 		for fsize in "${filesize[@]}"; do
-			go run "${CURDIR}/main.go" --count ${count} --format csv --http3 "https://server:18000/${fsize}" \
+			go run "${CURDIR}/main.go" --count ${count} --format ${format} --http3 "https://server:18000/${fsize}" \
 				>"${RESULT_DIR}/${fsize}/ping_${ping_ms}ms-packet_loss_${packet_loss}%.csv"
 		done
 
