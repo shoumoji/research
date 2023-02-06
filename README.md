@@ -21,12 +21,11 @@ Function as a Service における HTTP3/QUIC のコスト削減効果につい�
 ## 使い方
 
 ```bash
-# start HTTP/2 and HTTP/3 server
-make start -j 2
+make start -j 2 # start HTTP/2 and HTTP/3 server
 ```
 
 ```bash
 cd http-client
-./start-http2.sh
-./start-http3.sh
+./start-http2.sh # start HTTP/2 client
+./start-http3.sh # start HTTP/3 client
 ```
