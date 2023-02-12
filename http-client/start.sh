@@ -18,8 +18,11 @@ echo "start initialize..."
 
 tc qdisc del dev enp6s0 root || true
 
-if [ ! -d "${RESULT_DIR}" ]; then
-	mkdir -p "${RESULT_DIR}"
+if [ ! -d "${RESULT_DIR}/http2" ]; then
+	mkdir -p "${RESULT_DIR}/http2"
+fi
+if [ ! -d "${RESULT_DIR}/http3" ]; then
+	mkdir -p "${RESULT_DIR}/http3"
 fi
 
 echo "initialize done"
