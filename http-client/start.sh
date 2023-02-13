@@ -29,7 +29,7 @@ echo "initialize done"
 
 for ((i = 0; i <= 30; i++)); do
 	for ((j = 0; j <= 100; j += 100)); do
-		packet_loss=$(printf '%.1f\n' "$(echo "scale=2;${i}/10" | bc)")
+		packet_loss=$(printf '%1.1f\n' "$(echo "scale=2;${i}/10" | bc)")
 		ping_ms=$(printf "%03d\n" "${j}")
 
 		echo "packet_loss: ${packet_loss}%, i: ${i}"
@@ -45,9 +45,9 @@ for ((i = 0; i <= 30; i++)); do
 
 		for fsize in "${filesize[@]}"; do
 			go run "${CURDIR}/main.go" --count ${count} --format ${format} --http2 "https://server:18000/${fsize}" \
-				>"${RESULT_DIR}/http2/${fsize}mb-${ping_ms}ms-${packet_loss}%.csv"
+				>"${RESULT_DIR}/http2/${fsize}-${ping_ms}ms-${packet_loss}%.csv"
 			go run "${CURDIR}/main.go" --count ${count} --format ${format} --http3 "https://server:18000/${fsize}" \
-				>"${RESULT_DIR}/http3/${fsize}mb-${ping_ms}ms-${packet_loss}%.csv"
+				>"${RESULT_DIR}/http3/${fsize}-${ping_ms}ms-${packet_loss}%.csv"
 		done
 
 		# パケロスも遅延もない時はエラーが出るため
